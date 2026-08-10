@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Побачення? 🎬</title>
+<meta property="og:title" content="Анастасіє, підеш зі мною на побачення? 🎬">
+<meta property="og:description" content="Кіно «Одіссея», сеанс 12:40, а після — обід. Є одне маленьке питання…">
+<style>
+  :root{
+    --wine:#8f1b3f; --wine-deep:#5e0f28; --blush:#fbeef1;
+    --cream:#fffdfa; --ink:#2c1a20; --muted:#9a7d84; --line:#efe1e4;
+    --gold:#c8952b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;padding:24px;
+    background:radial-gradient(120% 120% at 50% 0%, #f7e3ea 0%, #efe6f5 55%, #f6efe6 100%);
+    overflow-x:hidden;
+  }
+  .display{font-family:"Georgia","Playfair Display",serif;letter-spacing:-.5px}
+  .badge{
+    position:fixed;top:20px;left:50%;transform:translateX(-50%);
+    background:var(--wine);color:#fff;font-size:12px;font-weight:700;
+    letter-spacing:2px;padding:9px 18px;border-radius:100px;
+    box-shadow:0 8px 24px rgba(143,27,63,.35);z-index:10;white-space:nowrap;
+  }
+  .card{
+    width:100%;max-width:460px;background:var(--cream);
+    border-radius:28px;padding:38px 32px;
+    box-shadow:0 24px 70px rgba(60,20,40,.18);
+    position:relative;z-index:5;
+  }
+  .eyebrow{text-align:center;font-size:11px;letter-spacing:3px;color:var(--wine);
+    font-weight:700;text-transform:uppercase;margin-bottom:14px}
+  .icon{width:52px;height:52px;border-radius:14px;background:var(--blush);
+    display:flex;align-items:center;justify-content:center;font-size:24px;
+    margin:0 auto 14px}
+  h1{font-size:33px;line-height:1.08;text-align:center;margin-bottom:8px;color:var(--wine-deep)}
+  .sub{text-align:center;color:var(--muted);font-size:15px;margin-bottom:26px;line-height:1.45}
+  label{display:block;font-size:11px;letter-spacing:2px;color:var(--muted);
+    text-transform:uppercase;font-weight:700;margin:18px 0 7px}
+  input,select{
+    width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;
+    font-size:16px;font-family:inherit;color:var(--ink);background:#fff;-webkit-appearance:none;
+  }
+  input:focus,select:focus{outline:none;border-color:var(--wine)}
+  .btn{
+    width:100%;padding:16px;border:none;border-radius:100px;font-size:16px;
+    font-weight:600;cursor:pointer;font-family:inherit;margin-top:24px;
+    background:var(--wine);color:#fff;transition:transform .12s, box-shadow .12s;
+    box-shadow:0 10px 24px rgba(143,27,63,.3);
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(143,27,63,.4)}
+  .btn:active{transform:translateY(0)}
+  .btn.ghost{background:transparent;color:var(--wine);box-shadow:none;
+    border:1.5px solid var(--line)}
+  .row{display:flex;gap:12px;align-items:center}
+  .row .btn{margin-top:0}
+  .row .ghost{width:auto;padding:16px 22px;flex:0 0 auto}
+  .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:4px}
+  .opt{border:1.5px solid var(--line);border-radius:14px;padding:14px 6px;
+    text-align:center;cursor:pointer;background:#fff;transition:.15s}
+  .opt .emo{font-size:22px;display:block;margin-bottom:5px}
+  .opt .lbl{font-size:12.5px;font-weight:600}
+  .opt.sel{background:var(--wine);color:#fff;border-color:var(--wine)}
+  .poster{
+    background:linear-gradient(160deg,#1c1230 0%,#3a1b34 60%,#5e0f28 100%);
+    border-radius:18px;padding:22px 20px;text-align:center;color:#fff;
+    margin-top:4px;box-shadow:0 12px 30px rgba(30,10,30,.35);position:relative;overflow:hidden;
+  }
+  .poster:before{content:"";position:absolute;inset:0;
+    background:radial-gradient(60% 50% at 50% 0%, rgba(200,149,43,.35), transparent 70%);}
+  .poster .k{font-size:34px;position:relative}
+  .poster .t{font-family:Georgia,serif;font-size:26px;letter-spacing:1px;margin:6px 0 2px;position:relative}
+  .poster .m{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#e8c98a;position:relative}
+  .yesrow{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:22px;position:relative;min-height:60px;flex-wrap:wrap}
+  #nope{position:relative}
+  .summary{background:var(--blush);border-radius:18px;padding:20px;margin-top:20px}
+  .sline{display:flex;align-items:flex-start;gap:12px;padding:9px 0;font-size:15px}
+  .sline .k{font-size:20px}
+  .sline b{font-weight:700}
+  .note{text-align:center;color:var(--muted);font-size:13.5px;margin-top:16px;line-height:1.5}
+  .hidden{display:none}
+  .conf{position:fixed;width:10px;height:14px;top:-20px;z-index:20;pointer-events:none;border-radius:2px}
+  @media(prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+</head>
+<body>
+<div class="badge">◆ ДЛЯ АНАСТАСІЇ ♥</div>
+
+<!-- SCREEN 0: the question -->
+<div class="card" id="s0">
+  <div class="eyebrow">Одне маленьке питання</div>
+  <h1 class="display">Анастасіє,<br>підеш зі мною<br>на побачення?</h1>
+  <p class="sub">Не поспішай. Хоча правильна відповідь тут лише одна 😌</p>
+  <div style="text-align:center;font-size:60px;margin:6px 0 2px">🥺</div>
+  <div class="yesrow">
+    <button class="btn" style="width:auto;padding:16px 30px" onclick="go(1)">♥ Так, залюбки</button>
+    <button class="btn ghost" id="nope" style="width:auto;padding:16px 22px" onmouseover="dodge()" onclick="dodge()">Не-а</button>
+  </div>
+</div>
+
+<!-- SCREEN 1: the movie -->
+<div class="card hidden" id="s1">
+  <div class="eyebrow">Крок 1 з 2 · Кіно</div>
+  <div class="icon">🎬</div>
+  <h1 class="display">Пропоную «Одіссею»</h1>
+  <p class="sub">Велике кіно на великому екрані. Обери сеанс — я подбаю про квитки.</p>
+  <div class="poster">
+    <span class="k">🏛️</span>
+    <div class="t">ОДІССЕЯ</div>
+    <div class="m">Пригоди · Драма</div>
+  </div>
+  <label>Сеанс</label>
+  <select id="time">
+    <option>10:20</option>
+    <option selected>12:40</option>
+    <option>15:10</option>
+    <option>18:30</option>
+    <option>21:00</option>
+  </select>
+  <label>Місця</label>
+  <select id="seats">
+    <option selected>Два по центру ♥</option>
+    <option>Останній ряд</option>
+    <option>Де буде затишно</option>
+  </select>
+  <button class="btn" onclick="go(2)">Далі: обід після кіно →</button>
+</div>
+
+<!-- SCREEN 2: lunch after -->
+<div class="card hidden" id="s2">
+  <div class="eyebrow">Крок 2 з 2 · Після кіно</іця</div>
+  <div class="icon">🍽️</div>
+  <h1 class="display">А потім — обід?</h1>
+  <p class="sub">Обговоримо фінал за смачним. Що обираємп?</p>
+  <div class="grid" id="food">
+    <div class="opt" onclick="pickFood(this,'🍝 Італійська')"><span class="emo">🍝</span><span class="lbl">Італійська</span></div>
+    <div class="opt sel" onclick="pickFood(this,'🍣 Суші')"><span class="emo">🍣</span><span class="lbl">Сушј</span></div>
+    <div class="opt" onclick="pickFood(this,'🍕 Піца')"><span class="emo">🍕</span><span class="lbl">Піца</span></div>
+    <div class="opt" onclick="pickFood(this,'🥗 Щось легке')"><span class="emo">🥗</span><span class="lbl">Легке</span></div>
+    <div class="opt" onclick="pickFood(this,'🍔 Бургери')"><span class="emo">🍔</span><span class="lbl">Бургери</span></div>
+    <div class="opt" onclick="pickFood(this,'🍜 Рамен')"><span class="emo">🍜</span><span class="lbl">Рамен</span></div>
+    <div class="opt" onclick="pickFood(this,'☕ Кава й десерт')"><span class="emo">☕</span><span class="lbl">Кава й десерт</span></div>
+    <div class="opt" onclick="pickFood(this,'🥞 Бранч')"><span class="emo">🥞</span><span class="lbl">Бранч</span></div>
+    <div class="opt" onclick="pickFood(this,'💕 Обереш ти')"><span class="emo">💕</span><span class="lbl">Обереш ти</span></div>
+  </div>
+  <div class="row" style="margin-top:22px">
+    <button class="btn ghost" onclick="go(1)">← Назад</button>
+    <button class="btn" onclick="finish()">Домовились ♥</button>
+  </div>
+</div>
+
+<!-- SCREEN 3: confirmation -->
+<div class="card hidden" id="s3">
+  <div style="text-align:center;font-size:30px;margin-bottom:6px">✨</div>
+  <h1 class="display" style="font-size:36px">Це побачення,<br>Анастасіє! 🌹</h1>
+  <div class="summary" id="sum"></div>
+  <p class="note">Заїду за тобою заздалегідь, щоб точно встигнути на початок. 🎟️</p>
+  <div style="text-align:center;font-size:44px;margin-top:14px">🥰</div>
+</div>
+<script>
+  let food = '🍣 Суші';
+  function go(n){
+    document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+    document.getElementById('s'+n).classList.remove('hidden');
+    window.scrollTo(0,0);
+    if(n===0) resetNope();
+  }
+  function pickFood(el,val){
+    document.querySelectorAll('#food .opt').forEach(o=>o.classList.remove('sel'));
+    el.classList.add('sel'); food=val;
+  }
+  function dodge(){
+    const b=document.getElementById('nope');
+    b.style.position='absolute';
+    const x=(Math.random()*220-110), y=(Math.random()*80-40);
+    b.style.transform=`translate(${x}px,${y}px)`;
+    b.textContent = ['Не-а','Спробуй ще!','Злови мене!','Сочно?','O����','А може все ж так?'][Math.floor(Math.random()*6)];
+  }
+  function resetNope(){const b=document.getElementById('nope');b.style.position='relative';b.style.transform='none';b.textContent='Не-а'}
+  function finish(){
+    const t=document.getElementById('time').value;
+    const s=document.getElementById('seats').value;
+    document.getElementById('sum').innerHTML=
+      `<div class="sline"><span class="k">🎬</span><div><b>Одіссея</b> — у кіно</div></div>
+       <div class="sline"><span class="k">🕐</span><div>Сеанс <b>${t}</b></div></div>
+       <div class="sline"><span class="k">💺</span><div><b>${s}</b></div></div>
+       <div class="sline"><span class="k">🍽️</span><div>Після кіно — <b>${food}</b></div></div>`;
+    go(3); confetti();
+  }
+  function confetti(){
+    const colors=['#8f1b3f','#e0729b','#c8952b','#fff','#c94f7c'];
+    for(let i=0;i<100;i++){
+      const c=document.createElement('div');
+      c.className='conf';
+      c.style.left=Math.random()*100+'vw';
+      c.style.background=colors[i%colors.length];
+      c.style.animation=`fall ${2+Math.random()*2}s ${Math.random()*.6}s linear forwards`;
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),4500);
+    }
+  }
+  const st=document.createElement('style');
+  st.textContent='@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.2}}';
+  document.head.appendChild(st);
+</script>
+</body>
+</html>
