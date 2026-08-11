@@ -160,10 +160,12 @@
   <div style="text-align:center;font-size:30px;margin-bottom:6px">✨</div>
   <h1 class="display" style="font-size:36px">Це побачення,<br>Анастасіє! 🌹</h1>
   <div class="summary" id="sum"></div>
+  <p class="note" id="sendstatus">📨 Надсилаю твою відповідь Олександру…</p>
   <p class="note">Заїду за тобою заздалегідь, щоб точно встигнути на початок. 🎟️</p>
   <div style="text-align:center;font-size:44px;margin-top:14px">🥰</div>
 </div>
 <script>
+  const ENDPOINT = 'https://formsubmit.co/ajax/oleksandr.kyliushyk@cru.org';
   let food = '🍣 Суші';
   function go(n){
     document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
@@ -191,7 +193,13 @@
        <div class="sline"><span class="k">🕐</span><div>Сеанс <b>${t}</b></div></div>
        <div class="sline"><span class="k">💺</span><div><b>${s}</b></div></div>
        <div class="sline"><span class="k">🍽️</span><div>Після кіно — <b>${food}</b></div></div>`;
-    go(3); confetti();
+    go(3); confetti(); sendAnswer(t,s);
+  }
+  function sendAnswer(t,s){
+    const status=document.getElementById('sendstatus');
+    fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'🌹 Анастасія сказала «Так»!',_template:'table',_captcha:'false','Відповідь':'Так, залюбки ♥','Фільм':'Одіссея','Сеанс':t,'Місця':s,'Обід після кіно':food})})
+    .then(r=>r.json()).then(()=>{status.innerHTML='✅ Відповідь надіслано Олександру.';})
+    .catch(()=>{status.innerHTML='💛 Готово!';});
   }
   function confetti(){
     const colors=['#8f1b3f','#e0729b','#c8952b','#fff','#c94f7c'];
