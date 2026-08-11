@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Опитувальник після побачення 📋</title>
+<meta property="og:title" content="Опитувальник задоволеності побаченням 📋">
+<meta property="og:description" content="Офіційна форма зворотного звʼязку. Чесність вітається, компліменти теж.">
+<style>
+  :root{
+    --wine:#8f1b3f; --wine-deep:#5e0f28; --blush:#fbeef1;
+    --cream:#fffdfa; --ink:#2c1a20; --muted:#9a7d84; --line:#efe1e4; --gold:#c8952b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--ink);min-height:100vh;
+    display:flex;align-items:center;justify-content:center;padding:24px;
+    background:radial-gradient(120% 120% at 50% 0%, #f7e3ea 0%, #efe6f5 55%, #f6efe6 100%);
+    overflow-x:hidden;
+  }
+  .display{font-family:"Georgia","Playfair Display",serif;letter-spacing:-.5px}
+  .badge{position:fixed;top:20px;left:50%;transform:translateX(-50%);
+    background:var(--wine);color:#fff;font-size:11px;font-weight:700;letter-spacing:2px;
+    padding:9px 18px;border-radius:100px;box-shadow:0 8px 24px rgba(143,27,63,.35);z-index:10;white-space:nowrap}
+  .card{width:100%;max-width:480px;background:var(--cream);border-radius:28px;padding:36px 30px;
+    box-shadow:0 24px 70px rgba(60,20,40,.18);position:relative;z-index:5;margin:70px 0 30px}
+  .eyebrow{text-align:center;font-size:11px;letter-spacing:3px;color:var(--wine);
+    font-weight:700;text-transform:uppercase;margin-bottom:12px}
+  h1{font-size:30px;line-height:1.1;text-align:center;margin-bottom:8px;color:var(--wine-deep)}
+  .sub{text-align:center;color:var(--muted);font-size:14.5px;margin-bottom:22px;line-height:1.45}
+  .q{margin-top:24px}
+  .qlabel{font-size:15px;font-weight:700;margin-bottom:10px;color:var(--ink)}
+  .qnum{color:var(--wine);font-weight:800;margin-right:6px}
+  .stars{display:flex;gap:8px;justify-content:center;font-size:38px;cursor:pointer;user-select:none}
+  .star{filter:grayscale(1);opacity:.35;transition:.12s}
+  .star.on{filter:none;opacity:1;transform:scale(1.08)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .opt{border:1.5px solid var(--line);border-radius:14px;padding:13px 10px;text-align:center;
+    cursor:pointer;background:#fff;transition:.15s;font-size:14px;font-weight:600}
+  .opt.sel{background:var(--wine);color:#fff;border-color:var(--wine)}
+  .pills{display:flex;flex-direction:column;gap:10px}
+  .pill{border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;
+    background:#fff;transition:.15s;font-size:15px}
+  .pill.sel{background:var(--wine);color:#fff;border-color:var(--wine)}
+  textarea,input{width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;
+    font-size:16px;font-family:inherit;color:var(--ink);background:#fff;-webkit-appearance:none;resize:vertical}
+  textarea:focus,input:focus{outline:none;border-color:var(--wine)}
+  .range-wrap{text-align:center}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:100px;
+    background:linear-gradient(90deg,var(--gold),var(--wine));margin-top:6px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;
+    background:#fff;border:3px solid var(--wine);cursor:pointer;box-shadow:0 3px 8px rgba(143,27,63,.35)}
+  .rangeval{font-size:15px;font-weight:700;color:var(--wine);margin-top:8px}
+  .btn{width:100%;padding:16px;border:none;border-radius:100px;font-size:16px;font-weight:600;
+    cursor:pointer;font-family:inherit;margin-top:28px;background:var(--wine);color:#fff;
+    transition:transform .12s, box-shadow .12s;box-shadow:0 10px 24px rgba(143,27,63,.3)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(143,27,63,.4)}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+  .note{text-align:center;color:var(--muted);font-size:13px;margin-top:14px;line-height:1.5}
+  .hidden{display:none}
+  .summary{background:var(--blush);border-radius:18px;padding:22px;margin-top:18px;text-align:center}
+  .conf{position:fixed;width:10px;height:14px;top:-20px;z-index:20;pointer-events:none;border-radius:2px}
+  @media(prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+</head>
+<body>
+<div class="badge">📋 ЗВОРОТНІЙ ЗВʼЯЗОК · ПІСЛЯ ПОБАЧЕННЯ</div>
+
+<!-- FORM -->
+<div class="card" id="form">
+  <div class="eyebrow">Форма №1 · Конфіденційно</div>
+  <h1 class="display">Опитувальник<br>задоволеності побаченням</h1>
+  <p class="sub">Дякуємо, що обрали це побачення. Ваша думка важлива для нас (особливо для одного конкретного нас). Чесність вітається, компліменти — теж 😌</p>
+
+  <div class="q">
+    <div class="qlabel"><span class="qnum">1.</span>Загальна оцінка вечора</div>
+    <div class="stars" id="stars">
+      <span class="star" data-v="1">⭐</span><span class="star" data-v="2">⭐</span>
+      <span class="star" data-v="3">⭐</span><span class="star" data-v="4">⭐</span>
+      <span class="star" data-v="5">⭐</span>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="qlabel"><span class="qnum">2.</span>Найкращий момент</div>
+    <div class="grid" id="best">
+      <div class="opt" data-v="🎬 Кіно">🎬 Кіно</div>
+      <div class="opt" data-v="🍽️ Обід і розмови">🍽️ Обід і розмови</div>
+      <div class="opt" data-v="😏 Компанія">😏 Компанія</div>
+      <div class="opt" data-v="✨ Усе разом">✨ Усе разом</div>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="qlabel"><span class="qnum">3.</span>Наскільки Олександр був чарівним?</div>
+    <div class="range-wrap">
+      <input type="range" min="1" max="10" value="8" id="charm" style="width:100%">
+      <div class="rangeval" id="charmval">8 / 10 — досить непогано 😎</div>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="qlabel"><span class="qnum">4.</span>Друге побачення?</div>
+    <div class="pills" id="second">
+      <div class="pill" data-v="Так, залюбки ♥">Так, залюбки ♥</div>
+      <div class="pill" data-v="Однозначно так">Однозначно так, чого питаєш 😄</div>
+      <div class="pill" data-v="Дай подумати... так">Дай подумати… ну добре, так 🙈</div>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="qlabel"><span class="qnum">5.</span>Побажання / скарги / компліменти</div>
+    <textarea id="comment" rows="3" placeholder="Напиши що завгодно — від «було чудово» до «наступного разу обираю ресторан я»…"></textarea>
+  </div>
+
+  <div class="q">
+    <div class="qlabel"><span class="qnum">6.</span>Хто заповнював (необовʼязково)</div>
+    <input type="text" id="who" placeholder="Ім'я">
+  </div>
+
+  <button class="btn" id="submit" onclick="submitForm()">Надіслати відгук ♥</button>
+  <p class="note" id="status">Відповіді підуть Олександру на пошту. Обіцяємо не показувати нікому. Майже.</p>
+</div>
+
+<!-- SUCCESS -->
+<div class="card hidden" id="done">
+  <div style="text-align:center;font-size:40px;margin-bottom:6px">🎉</div>
+  <h1 class="display" style="font-size:32px">Дякуємо за відгук!</h1>
+  <div class="summary">
+    <div style="font-size:15px;line-height:1.6">Ваша заявка на друге побачення прийнята до розгляду й отримала <b>найвищий пріоритет</b>. 💛<br>Очікуйте дзвінка (він однаково подзвонить).</div>
+  </div>
+  <div style="text-align:center;font-size:44px;margin-top:16px">🥰</div>
+</div>
+
+<script>
+  const ENDPOINT = 'https://formsubmit.co/ajax/oleksandr.kyliushyk@cru.org';
+  let rating=0, best='', second='';
+
+  const stars=[...document.querySelectorAll('#stars .star')];
+  stars.forEach(s=>{
+    s.addEventListener('click',()=>{rating=+s.dataset.v;paint();});
+    s.addEventListener('mouseover',()=>hover(+s.dataset.v));
+  });
+  document.getElementById('stars').addEventListener('mouseleave',paint);
+  function hover(v){stars.forEach(s=>s.classList.toggle('on',+s.dataset.v<=v));}
+  function paint(){stars.forEach(s=>s.classList.toggle('on',+s.dataset.v<=rating));}
+
+  document.querySelectorAll('#best .opt').forEach(o=>o.addEventListener('click',()=>{
+    document.querySelectorAll('#best .opt').forEach(x=>x.classList.remove('sel'));
+    o.classList.add('sel'); best=o.dataset.v;
+  }));
+  document.querySelectorAll('#second .pill').forEach(o=>o.addEventListener('click',()=>{
+    document.querySelectorAll('#second .pill').forEach(x=>x.classList.remove('sel'));
+    o.classList.add('sel'); second=o.dataset.v;
+  }));
+
+  const charm=document.getElementById('charm'), charmval=document.getElementById('charmval');
+  const charmText=v=>{
+    if(v<=3)return v+' / 10 — є куди рости 🫠';
+    if(v<=6)return v+' / 10 — нормальний такий 🙂';
+    if(v<=8)return v+' / 10 — досить непогано 😎';
+    if(v<=9)return v+' / 10 — ой, та ну 😳';
+    return v+' / 10 — ідеал, без коментарів ✨';
+  };
+  charm.addEventListener('input',()=>charmval.textContent=charmText(+charm.value));
+
+  function submitForm(){
+    const btn=document.getElementById('submit');
+    const status=document.getElementById('status');
+    if(!rating){status.innerHTML='⭐ Спершу постав оцінку у пункті 1 😉';return;}
+    btn.disabled=true; btn.textContent='Надсилаю…';
+    fetch(ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        _subject:'📋 Новий відгук про побачення!',
+        _template:'table',
+        _captcha:'false',
+        'Оцінка вечора':rating+' / 5 ⭐',
+        'Найкращий момент':best||'—',
+        'Чарівність Олександра':charm.value+' / 10',
+        'Друге побачення':second||'—',
+        'Коментар':document.getElementById('comment').value||'—',
+        'Заповнив(ла)':document.getElementById('who').value||'—'
+      })
+    })
+    .then(r=>r.json())
+    .then(()=>{show();})
+    .catch(()=>{show();});
+  }
+  function show(){
+    document.getElementById('form').classList.add('hidden');
+    document.getElementById('done').classList.remove('hidden');
+    window.scrollTo(0,0); confetti();
+  }
+  function confetti(){
+    const colors=['#8f1b3f','#e0729b','#c8952b','#fff','#c94f7c'];
+    for(let i=0;i<100;i++){
+      const c=document.createElement('div');c.className='conf';
+      c.style.left=Math.random()*100+'vw';c.style.background=colors[i%colors.length];
+      c.style.animation=`fall ${2+Math.random()*2}s ${Math.random()*.6}s linear forwards`;
+      document.body.appendChild(c);setTimeout(()=>c.remove(),4500);
+    }
+  }
+  const st=document.createElement('style');
+  st.textContent='@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.2}}';
+  document.head.appendChild(st);
+</script>
+</body>
+</html>
